@@ -10,7 +10,7 @@ namespace TravelExperts_Wrkshp_5.Helpers
 {
     public static class Helper
     {
-       
+         //this method generates the salt
         public static string GenerateSalt(int length) //length of salt    
         {
             const string allowedChars = "abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ0123456789";
@@ -80,7 +80,7 @@ namespace TravelExperts_Wrkshp_5.Helpers
             }
         }
 
-        public static string HashEncrypt(string password)
+        public static string HashEncrypt(string password)   //simple encrypt password
         {
             using(MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider())
             {

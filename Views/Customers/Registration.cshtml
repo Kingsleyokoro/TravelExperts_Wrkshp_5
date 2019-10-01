@@ -7,7 +7,7 @@
 <h2>Registration</h2>
 
 
-@using (Html.BeginForm(@*"Registration","Customer",null,FormMethod.Post*@))
+@using (Html.BeginForm(@*"SendMailToUser","Customers",null,FormMethod.Post*@))
 {
     @Html.AntiForgeryToken()
 
@@ -121,7 +121,8 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Register" class="btn btn-success" />
+                <input id="btn" type="submit" value="Register" class="btn btn-success" />
+                
             </div>
         </div>
 
@@ -149,6 +150,28 @@
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
+<script>
+
+    var SendEmail = function () {
+        $.ajax({
+            type: "Post",
+            url: "Customers/SendMailToUser",
+            success: function (data) {
+                alert("Success")
+            }
+        }
+        )
+    }
+
+    $(function (){
+    $("#btn").click(function() {
+        $("#form").attr
+                   (
+                      "action",
+                      "@Url.Action("SendMailToUser", "Customers", new {area="Area" })",
+                   ).submit();
+    });
+</script>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
