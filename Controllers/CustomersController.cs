@@ -8,11 +8,15 @@ using TravelExperts_Wrkshp_5.Helpers;
 using System.Net.Mail;
 using System.Net;
 using System.Text;
+using System.Data.Entity;
 
 namespace TravelExperts_Wrkshp_5.Controllers
 {
+    
     public class CustomersController : Controller
     {
+        public bool isUpdated = false;
+        private TravelExpertsEntities db = new TravelExpertsEntities();
         // GET: Customers
         public ActionResult Index()
         {
@@ -171,6 +175,46 @@ namespace TravelExperts_Wrkshp_5.Controllers
             }
         }
 
-        
+
+     
+
+        public ActionResult Update(int? id)
+        {
+            id = Convert.ToInt32(Session["CustomerID"]);  //an alternative way of getting the id from a session variable.
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Customer customer = db.Customers.Find(id);
+            if (customer == null)
+            {
+                return HttpNotFound();
+            }
+            return View(customer);
+        }
+
+        // POST: Customers/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Update([Bind(Include = "CustomerId,CustFirstName,CustLastName,CustAddress,CustCity,CustProv,CustPostal,CustCountry,CustHomePhone,CustBusPhone,CustEmail,AgentId,CustUsername,CustPassword")] Customer customer)
+        {
+           
+            if (ModelState.IsValid)
+            {
+                customer.CustPassword = Helper.HashEncrypt(customer.CustPassword);  //hash the new password just before update into the database
+                db.Entry(customer).State = EntityState.Modified;
+                db.SaveChanges();
+                Session.Clear();
+                Session.Abandon();
+                isUpdated = true;
+                ViewBag.updateSuccessMessage = "Customer Update completed!!";
+                return RedirectToAction("Login");
+                
+            }
+            return View(customer);
+        }
+
     }
 }
