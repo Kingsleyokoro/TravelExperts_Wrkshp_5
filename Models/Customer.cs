@@ -55,27 +55,27 @@ namespace TravelExperts_Wrkshp_5.Models
         public string CustCountry { get; set; }
 
         [Display(Name = "Home Phone:")]
-        [Required(ErrorMessage = "Home Phone number is required")]
+        //[Required(ErrorMessage = "Home Phone number is required")]
         [StringLength(20)]
         [DataType(DataType.PhoneNumber)]
-        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Not a valid phone number")]
+        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Not a valid phone number eg 709-XXX-XXXX")]
         public string CustHomePhone { get; set; }
 
         [Display(Name = "Business Phone")]
-        [Required(ErrorMessage = "Business phone number is required")]
+        //[Required(ErrorMessage = "Business phone number is required")]
         [StringLength(20)]
         [DataType(DataType.PhoneNumber)]
-        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Not a valid phone number")]
+        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Not a valid phone number eg 709-XXX-XXXX")]
         public string CustBusPhone { get; set; }
 
         [Display(Name = "Email:")]
-        [Required(ErrorMessage = "Your EMail is required")]
+        [Required(ErrorMessage = "Your Email is required")]
         [StringLength(50)]
         [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string CustEmail { get; set; }
 
         [Display(Name = "Agent Number:")]
-        [Required(ErrorMessage = "Insert your Agent Code is required")]
+        //[Required(ErrorMessage = "Your Agent Code is required")]
         public Nullable<int> AgentId { get; set; }
 
         [Display(Name = "Username:")]

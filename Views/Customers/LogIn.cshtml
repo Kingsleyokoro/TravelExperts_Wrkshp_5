@@ -4,14 +4,14 @@
     ViewBag.Title = "LogIn";
 }
 
-<h2>LogIn</h2>
+<h2>Log In</h2>
 
 
 @using (Html.BeginForm("LogIn", "Customers", null, FormMethod.Post))
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
+    <div class="form-horizontal container">
         <h4>Please Fill you Login Information</h4>
         <hr />
 
@@ -28,7 +28,7 @@
         <div class="form-group">
 
             <div class="col-md-6">
-                <button  class="btn btn-success btn-block" >Log In</button>
+                <button  class="btn btn-success" >Log In</button>
             </div>
         </div>
         <div class="login-subtitle">

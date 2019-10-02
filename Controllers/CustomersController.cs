@@ -37,14 +37,11 @@ namespace TravelExperts_Wrkshp_5.Controllers
                 using (var context = new TravelExpertsEntities())
                 {
                     var chkUser = (from s in context.Customers where s.CustUsername == customer.CustUsername select s).FirstOrDefault();
-                    string name = customer.CustFirstName;
-                    string username = customer.CustUsername;
-                    string userPassword = customer.CustPassword;
+                    string name = customer.CustFirstName;   //get the customer first name from the customer object 
+                    string username = customer.CustUsername;  //get the customer username from the customer object
+                    string userPassword = customer.CustPassword; //get the customer password from the customer object
 
-                    //call the SendEmail method
-                    SendEmail(customer.CustEmail, "Registration Confirmed", 
-                        $"<p>Hi {name},<br/>Thank you for registering with Travel Experts where you explore, journey, discover and adventure.<br/>" +
-                        $"Your username: {username}<br/> Your password: {userPassword}<br/> <br/> Travel Experts</p>");
+                    
 
                     if (chkUser == null)
                     {
@@ -56,6 +53,13 @@ namespace TravelExperts_Wrkshp_5.Controllers
                         //create a salt table in the database and save the kewNew
                         context.Customers.Add(customer);
                         context.SaveChanges();
+
+                        //call the SendEmail method
+                        //send registration email to new customer
+                        SendEmail(customer.CustEmail, "Registration Confirmed",
+                            $"<p>Hi {name},<br/>Thank you for registering with Travel Experts where you explore, journey, discover and adventure.<br/>" +
+                            $"Your username: {username}<br/> Your password: {userPassword}<br/> <br/> Travel Experts</p>");
+
                         ModelState.Clear();
                        
                         ViewBag.SuccessMessage = "Registration Successful!\nA Confirmation email has been sent to your Email address.";

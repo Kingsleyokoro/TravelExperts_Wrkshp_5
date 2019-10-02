@@ -7,7 +7,7 @@
 <h2>Registration</h2>
 
 
-@using (Html.BeginForm(@*"SendMailToUser","Customers",null,FormMethod.Post*@))
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
@@ -95,13 +95,13 @@
             </div>
         </div>
 
-        <div class="form-group">
+        @*<div class="form-group">
             @Html.LabelFor(model => model.AgentId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.AgentId, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.AgentId, "", new { @class = "text-danger" })
             </div>
-        </div>
+        </div>*@
 
         <div class="form-group">
             @Html.LabelFor(model => model.CustUsername, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -122,6 +122,7 @@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input id="btn" type="submit" value="Register" class="btn btn-success" />
+                
                 
             </div>
         </div>
@@ -147,21 +148,19 @@
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+
 <script>
 
-    var SendEmail = function () {
-        $.ajax({
-            type: "Post",
-            url: "Customers/SendMailToUser",
-            success: function (data) {
-                alert("Success")
-            }
-        }
-        )
-    }
+    //var SendEmail = function () {
+    //    $.ajax({
+    //        type: "Post",
+    //        url: "Customers/SendMailToUser",
+    //        success: function (data) {
+    //            alert("Success")
+    //        }
+    //    }
+    //    )
+    //}
 
     $(function (){
     $("#btn").click(function() {
