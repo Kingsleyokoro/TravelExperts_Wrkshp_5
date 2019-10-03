@@ -1,20 +1,22 @@
 ﻿@model TravelExperts_Wrkshp_5.Models.Customer
 
 @{
-    ViewBag.Title = "Registration";
+    ViewBag.Title = "Update";
 }
 
-<h2>Registration</h2>
+<h2>Update</h2>
 
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-
+    
     <div class="form-horizontal">
-        <h4>Please Fill in your detalis</h4>
+        <h4>Customer</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.CustomerId)
+
         <div class="form-group">
             @Html.LabelFor(model => model.CustFirstName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -95,13 +97,13 @@
             </div>
         </div>
 
-        @*<div class="form-group">
+        <div class="form-group">
             @Html.LabelFor(model => model.AgentId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.AgentId, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.AgentId, "", new { @class = "text-danger" })
             </div>
-        </div>*@
+        </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.CustUsername, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -121,56 +123,13 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input id="btn" type="submit" value="Register" class="btn btn-success" />
-                
-                
+                <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </div>
-
-
-
-        @if (ViewBag.SuccessMessage != null)
-         {
-            ViewBag.ErrorMessage = null;
-            <div class="alert alert-success alert-dismissible">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong>@ViewBag.SuccessMessage</strong>
-            </div>
-        }
-        @if (ViewBag.ErrorMessage != null)
-         {
-            ViewBag.SuccessMessage = null;
-            <div class="alert alert-danger alert-dismissible">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong>@ViewBag.ErrorMessage</strong>
-            </div>
-        }
     </div>
 }
 
 
-<script>
-
-    //var SendEmail = function () {
-    //    $.ajax({
-    //        type: "Post",
-    //        url: "Customers/SendMailToUser",
-    //        success: function (data) {
-    //            alert("Success")
-    //        }
-    //    }
-    //    )
-    //}
-
-    $(function (){
-    $("#btn").click(function() {
-        $("#form").attr
-                   (
-                      "action",
-                      "@Url.Action("SendMailToUser", "Customers", new {area="Area" })",
-                   ).submit();
-    });
-</script>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

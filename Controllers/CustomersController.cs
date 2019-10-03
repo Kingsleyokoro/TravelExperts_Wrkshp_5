@@ -8,11 +8,15 @@ using TravelExperts_Wrkshp_5.Helpers;
 using System.Net.Mail;
 using System.Net;
 using System.Text;
+using System.Data.Entity;
 
 namespace TravelExperts_Wrkshp_5.Controllers
 {
+    
     public class CustomersController : Controller
     {
+        public bool isUpdated = false;
+        private TravelExpertsEntities db = new TravelExpertsEntities();
         // GET: Customers
         public ActionResult Index()
         {
@@ -37,14 +41,11 @@ namespace TravelExperts_Wrkshp_5.Controllers
                 using (var context = new TravelExpertsEntities())
                 {
                     var chkUser = (from s in context.Customers where s.CustUsername == customer.CustUsername select s).FirstOrDefault();
-                    string name = customer.CustFirstName;
-                    string username = customer.CustUsername;
-                    string userPassword = customer.CustPassword;
+                    string name = customer.CustFirstName;   //get the customer first name from the customer object 
+                    string username = customer.CustUsername;  //get the customer username from the customer object
+                    string userPassword = customer.CustPassword; //get the customer password from the customer object
 
-                    //call the SendEmail method
-                    SendEmail(customer.CustEmail, "Registration Confirmed", 
-                        $"<p>Hi {name},<br/>Thank you for registering with Travel Experts where you explore, journey, discover and adventure.<br/>" +
-                        $"Your username: {username}<br/> Your password: {userPassword}<br/> <br/> Travel Experts</p>");
+                    
 
                     if (chkUser == null)
                     {
@@ -56,6 +57,13 @@ namespace TravelExperts_Wrkshp_5.Controllers
                         //create a salt table in the database and save the kewNew
                         context.Customers.Add(customer);
                         context.SaveChanges();
+
+                        //call the SendEmail method
+                        //send registration email to new customer
+                        SendEmail(customer.CustEmail, "Registration Confirmed",
+                            $"<p>Hi {name},<br/>Thank you for registering with Travel Experts where you explore, journey, discover and adventure.<br/>" +
+                            $"Your username: {username}<br/> Your password: {userPassword}<br/> <br/> Travel Experts</p>");
+
                         ModelState.Clear();
                        
                         ViewBag.SuccessMessage = "Registration Successful!\nA Confirmation email has been sent to your Email address.";
@@ -167,6 +175,46 @@ namespace TravelExperts_Wrkshp_5.Controllers
             }
         }
 
-        
+
+     
+
+        public ActionResult Update(int? id)
+        {
+            id = Convert.ToInt32(Session["CustomerID"]);  //an alternative way of getting the id from a session variable.
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Customer customer = db.Customers.Find(id);
+            if (customer == null)
+            {
+                return HttpNotFound();
+            }
+            return View(customer);
+        }
+
+        // POST: Customers/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Update([Bind(Include = "CustomerId,CustFirstName,CustLastName,CustAddress,CustCity,CustProv,CustPostal,CustCountry,CustHomePhone,CustBusPhone,CustEmail,AgentId,CustUsername,CustPassword")] Customer customer)
+        {
+           
+            if (ModelState.IsValid)
+            {
+                customer.CustPassword = Helper.HashEncrypt(customer.CustPassword);  //hash the new password just before update into the database
+                db.Entry(customer).State = EntityState.Modified;
+                db.SaveChanges();
+                Session.Clear();
+                Session.Abandon();
+                isUpdated = true;
+                ViewBag.updateSuccessMessage = "Customer Update completed!!";
+                return RedirectToAction("Login");
+                
+            }
+            return View(customer);
+        }
+
     }
 }
