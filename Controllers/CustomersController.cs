@@ -114,9 +114,7 @@ namespace TravelExperts_Wrkshp_5.Controllers
                         var query = (from s in context.Customers where (s.CustUsername == userName) && s.CustPassword.Equals(encodingPasswordString) select s).FirstOrDefault();
                         if (query != null)
                         {
-                            //RedirectToAction("Details/" + id.ToString(), "FullTimeEmployees");    
-                            //return View("../Admin/Registration"); url not change in browser    
-                            //return RedirectToAction("Registration", "Customers");
+                            
                             ViewBag.SuccessMessage = $"Login Completed with Customer ID of {Session["CustomerID"]}";
                         }
                         ViewBag.ErrorMessage = "Invallid User Name or Password";
@@ -147,7 +145,7 @@ namespace TravelExperts_Wrkshp_5.Controllers
 
         
         //this method returns a true or false if email send was successfull
-        //
+        
         private bool SendEmail(string toEmail, string subject, string emailBody)
         {
             try
